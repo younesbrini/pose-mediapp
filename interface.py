@@ -17,7 +17,7 @@ mp_pose = mp.solutions.pose
 cap = cv2.VideoCapture(0)
 
 ## Setup mediapipe instance
-with mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, min_tracking_confidence=0.7, model_complexity=2) as pose:
+with mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5, min_tracking_confidence=0.5, model_complexity=1) as pose:
     while cap.isOpened():
         ret, frame = cap.read()
         
