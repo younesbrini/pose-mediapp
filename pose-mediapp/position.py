@@ -50,8 +50,8 @@ class Asana(Position):
     """
     Asanas are yoga referenced positions.
     """
-    def __init__(self, landmarks, image_w, image_h, name):
-        self.name = name
+    def __init__(self, landmarks, image_w, image_h, filename):
+        self.name = filename.split('.')[0]
         super().__init__(landmarks, image_w, image_h)
     
     #This is where we should put as an attribute of asanas the angles that matter for that asana
@@ -64,7 +64,8 @@ def load_asanas(dir_path):
     for filename in filenames:
         if '.png' in filename or  '.jpg' in filename:
             landmarks, w, h = get_landmarks.extract_landmarks(dir_path + filename)
-            asana_dict[filename]=Asana(landmarks, w, h, filename)
+            name = filename.split('.')[0]
+            asana_dict[name]=Asana(landmarks, w, h, filename)
     return asana_dict
 
         
