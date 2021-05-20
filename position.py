@@ -1,4 +1,5 @@
 import mediapipe as mp 
+import os
 mp_pose = mp.solutions.pose
 
 import get_landmarks
@@ -6,12 +7,11 @@ import utils
 
 class Position():
     """
-    Cree un Position type a partir de landmarks representant la pose de la personne d'une image
-    Important : on suppose qu'une unique personne figure sur chaque image
+    A Position is defined by how a person's body is located within a frame
     """
-    def __init__(self, landmarks, w, h):
-        self.width = w
-        self.heigth = h
+    def __init__(self, landmarks, image_w, image_h):
+        self.width = image_w
+        self.heigth = image_h
         self.landmarks = landmarks
         self.__get_keypoints()
         self.__get_angles()
@@ -46,9 +46,35 @@ class Position():
     def angles(self):
         return self.__angles
 
-if __name__ == '__main__':
-    landmarks, w, h = get_landmarks.extract_landmarks('test1.jpg')
-
-    pos1 = Position(landmarks, w, h)
+class Asana(Position):
+    """
+    Asanas are yoga referenced positions.
+    """
+    def __init__(self, landmarks, image_w, image_h, name):
+        self.name = name
+        super().__init__(landmarks, image_w, image_h)
     
-    print(pos1.angles)
+    #This is where we should put as an attribute of asanas the angles that matter for that asana
+        
+def load_asanas(dir_path):
+    dir_path = os.getcwd()+'/src_asanas/'
+    _, _, filenames = next(os.walk(dir_path))
+    print(filenames)
+    asana_dict={}
+    for filename in filenames:
+        if '.png' in filename or  '.jpg' in filename:
+            landmarks, w, h = get_landmarks.extract_landmarks(dir_path + filename)
+            asana_dict[filename]=Asana(landmarks, w, h, filename)
+    return asana_dict
+
+        
+if __name__ == '__main__':
+    # landmarks, w, h = get_landmarks.extract_landmarks('test1.jpg')
+    # # pos1 = Position(landmarks, w, h)
+    # # print(pos1.angles)
+    # pos = Asana(landmarks, w, h, "Heyo")
+    # print(pos.angles)
+    path = os.getcwd()+'/src_asanas/'
+    asana_dict = load_asanas(path)
+    for name in asana_dict:
+        print(asana_dict[name].angles)

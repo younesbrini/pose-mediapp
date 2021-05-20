@@ -1,1 +1,5 @@
 /venv-mediapp
+/src_asanas
+/test
+**/.DS_Store
+**/__pycache__
