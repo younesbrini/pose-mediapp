@@ -20,14 +20,12 @@ def clasifier(position_test, position_test_flip, asana_dict):
         #I only did this for conveniance. 
         # It is horribly wrong as we can determine beforehand if we should flip the image or not beforehand
     label = min(error_dict.keys(), key=(lambda k: error_dict[k]))
-    print(label, error_dict[label])
 
     #Probability measure that is super biased based on the asanas selected, but better than nothing
     clasifier_dict={}
     maxi = max(error_dict.values())
     for key in error_dict:
         clasifier_dict[key] = 1 - error_dict[key]/maxi 
-    print(clasifier_dict)
     return (label, clasifier_dict[label])
 
 def maximum_error(position_angles, asana_angles):
@@ -47,7 +45,7 @@ if __name__ == '__main__':
     #TEST IMAGE
     image_test_path = os.getcwd()+'/test/downdog_test.jpg'
     landmarks, w, h = get_landmarks.extract_landmarks(image_test_path)
-    flip_landmarks, w, h = get_landmarks.extract_landmarks_flipped(image_test_path)
+    flip_landmarks, w, h = get_landmarks.extract_landmarks(image_test_path, flip=True)
     position_test = Position(landmarks, w, h)
     position_test_flip = Position(flip_landmarks, w, h)
 
