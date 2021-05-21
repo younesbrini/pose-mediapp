@@ -9,8 +9,8 @@ import mediapipe as mp
 
 mp_pose = mp.solutions.pose
 
-from orion.cv.math import calculate_angle, calculate_distance_between_angles
-from orion.cv.utils import preprocess_image
+from .math import calculate_angle, calculate_distance_between_angles
+from .utils import preprocess_image
 
 
 class PoseLandmarkEstimator(object):

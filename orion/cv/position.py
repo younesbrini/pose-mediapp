@@ -4,7 +4,7 @@ import mediapipe as mp
 mp_pose = mp.solutions.pose
 PoseLandmark = mp_pose.PoseLandmark
 
-from orion.cv.math import calculate_angle
+from .math import calculate_angle
 
 class Position(object):
     """

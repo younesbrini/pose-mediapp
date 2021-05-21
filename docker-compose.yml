@@ -1,0 +1,12 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+        - 8080:8080
+        - 5000:5000
+        - 19302:19302/udp
+        - 3478:3478/udp
+        - 3478:3478/tcp
+    network_mode: "bridge"
+    volumes: ['./orion:/app/orion']

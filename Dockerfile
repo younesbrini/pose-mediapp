@@ -10,20 +10,26 @@ RUN apt-get -qq update && \
 RUN pip3 install mediapipe
 
 # for aiortc
-RUN apt-get -qq install -y --no-install-recommends \
-    libavdevice-dev \
-    libavfilter-dev \
-    libopus-dev \
-    libvpx-dev \
-    pkg-config \
-    libopencv-dev 
+# RUN apt-get -qq install -y --no-install-recommends \
+#     libavdevice-dev \
+#     libavfilter-dev \
+#     libopus-dev \
+#     libvpx-dev \
+#     pkg-config \
+#     libopencv-dev 
 
 # for example app
 RUN pip3 install aiortc
-RUN pip3 install aiohttp
+RUN pip3 install vidgear[asyncio]
 
-COPY ./* ./app/
+EXPOSE 8080:8080 
 
-WORKDIR  /app/
+COPY ./orion /app/orion
 
-# CMD ["python", "./web/server.py"]
+ENV PYTHONPATH "${PYTHONPATH}:/app/orion"
+
+WORKDIR /app
+
+CMD ["-m", "orion.web.server"]
+
+ENTRYPOINT [ "python3" ]
